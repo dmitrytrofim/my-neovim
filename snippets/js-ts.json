@@ -1,0 +1,159 @@
+{
+    "dataset": {
+        "prefix": ".j-dset",
+        "body": [
+            ".dataset.$0"
+        ]
+    },
+    "console.clear": {
+        "prefix": "j-cc",
+        "body": [
+            "console.clear()"
+        ]
+    },
+    "console.log": {
+        "prefix": "j-cl",
+        "body": [
+            "console.log($0)"
+        ]
+    },
+    "console.dir": {
+        "prefix": "j-cd",
+        "body": [
+            "console.dir($0)"
+        ]
+    },
+    "addEvent": {
+        "prefix": ".j-ade",
+        "body": [
+            ".addEventListener('$1', $0)"
+        ]
+    },
+    "d.qs()": {
+        "prefix": "j-dqs",
+        "body": [
+            "document.querySelector('$0')"
+        ]
+    },
+    "d.qsAll()": {
+        "prefix": "j-dqsa",
+        "body": [
+            "document.querySelectorAll('$0')"
+        ]
+    },
+    "d.getelID": {
+        "prefix": "j-dgi",
+        "body": [
+            "document.getElementById('$0')"
+        ]
+    },
+    "for pattern": {
+        "prefix": "j-forpatt",
+        "body": [
+            "for (let ${1:i} = 0; ${1:i} < $0; ${1:i}++) {\n}"
+        ]
+    },
+    "for of pattern": {
+        "prefix": "j-forofpatt",
+        "body": [
+            "for (let ${1:el} of $0) {\n}"
+        ]
+    },
+    "for in pattern": {
+        "prefix": "j-forinpatt",
+        "body": [
+            "for (let ${1:key} in $0) {\n}"
+        ]
+    },
+    "offsetWidth": {
+        "prefix": ".j-offsetWidth",
+        "body": [
+            ".offsetWidth"
+        ]
+    },
+    "offsetHeight": {
+        "prefix": ".j-offsetHeight",
+        "body": [
+            ".offsetHeight"
+        ]
+    },
+    "contentEdit": {
+        "prefix": "j-contentEdit",
+        "body": [
+            "document.body.contentEditable = true;"
+        ]
+    },
+    "class": {
+        "prefix": "j-class",
+        "body": [
+            "class $1 {",
+            " constructor() {",
+            "  $0",
+            " }",
+            " init(){",
+            " }",
+            "}",
+            "",
+            "export default $1"
+        ]
+    },
+    "class Child": {
+        "prefix": "j-clchild",
+        "body": [
+            "class $1 extends App {",
+            " $3 () {",
+            " }",
+            " init() {",
+            "  if (${0:true}) this.$3()",
+            " }",
+            "}",
+            "const ${1/(.)/${1:/downcase}/} = new $1().init();"
+        ]
+    },
+    "function arrow": {
+        "prefix": "j-fa",
+        "body": [
+            "($1) => ${2:{$0\\}}"
+        ]
+    },
+    "if (cond){}": {
+        "prefix": "j-if",
+        "body": [
+            "if ($0) {",
+            "}"
+        ]
+    },
+    "getTotalLength": {
+        "prefix": ".j-getTotalLength",
+        "body": [
+            ".getTotalLength()"
+        ]
+    },
+    "fetch-headers: Content-type": {
+        "prefix": "j-conttype",
+        "body": [
+            "'Content-type': 'application/json; charset=UTF-8',"
+        ]
+    },
+    "class-constructor": {
+        "prefix": "j-clconstr",
+        "body": [
+            "constructor($1) {",
+            " super();",
+            " this.$0",
+            "}"
+        ]
+    },
+    "check element": {
+        "prefix": "j-checkelem",
+        "body": [
+            "if (${1:this.}$2) ${3:this.}$0"
+        ]
+    },
+    "use strict": {
+        "prefix": "j-use",
+        "body": [
+            "\"use strict\";"
+        ]
+    }
+}

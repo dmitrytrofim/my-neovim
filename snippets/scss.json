@@ -1,0 +1,211 @@
+{
+    "@include": {
+        "prefix": "s-inc",
+        "body": [
+            "@include ${1:sm} {",
+            "  $0",
+            "}"
+        ]
+    },
+    "width:100%, mxw": {
+        "prefix": "s-mwidthpx",
+        "body": [
+            "width: 100%;",
+            "max-width: $1px;"
+        ]
+    },
+    "width-height 100%": {
+        "prefix": "s-full",
+        "body": [
+            "width: 100%;",
+            "height: 100%;"
+        ]
+    },
+    "flex: 0 1 $": {
+        "prefix": "s-flexnull",
+        "body": [
+            "flex: 0 1 $0;"
+        ]
+    },
+    "flex-column": {
+        "prefix": "s-flexcol",
+        "body": [
+            "display: flex;",
+            "flex-direction: column;"
+        ]
+    },
+    "transition-full": {
+        "prefix": "s-trfull",
+        "body": [
+            "transition: name $1s ${2:linear} ${0:0}s;"
+        ]
+    },
+    "mask": {
+        "prefix": "s-mask",
+        "body": [
+            "mask-$0;",
+            "-webkit-"
+        ]
+    },
+    "mask-full": {
+        "prefix": "s-mask-full",
+        "body": [
+            "mask-image: $1url('$2');",
+            "-webkit-mask-image: $1url('$2');",
+            "mask-repeat: ${3:no-repeat};",
+            "-webkit-mask-repeat: ${3:no-repeat};",
+            "mask-size: ${4:cover};",
+            "-webkit-mask-size: ${4:cover};",
+            "mask-position: ${5:center};",
+            "-webkit-mask-position: ${5:center};$0"
+        ]
+    },
+    "after-before": {
+        "prefix": "s-aftbef",
+        "body": [
+            "&::${1:after} {",
+            " content: '';",
+            " position: absolute;",
+            " $0",
+            " }"
+        ]
+    },
+    "background-full": {
+        "prefix": "s-bgfull",
+        "body": [
+            "background: url('s$1') ${2:center} / ${3:cover} ${4:no-repeat}$0;"
+        ]
+    },
+    "background-full-next": {
+        "prefix": "s-bgfullnext",
+        "body": [
+            "$1url('$2') ${3:center} / ${4:cover} ${5:no-repeat}$0;"
+        ]
+    },
+    "flex-center": {
+        "prefix": "s-fcenter",
+        "body": [
+            "display: flex;",
+            "justify-content: center;",
+            "align-items: center;"
+        ]
+    },
+    "[data]": {
+        "prefix": "s-data",
+        "body": [
+            "[data-$1${2:='$3'}]{",
+            " $0",
+            "}"
+        ]
+    },
+    "line-height calc": {
+        "prefix": "s-lhcalc",
+        "body": [
+            "line-height: f.lhcalc($1, $2);"
+        ]
+    },
+    "&:{}": {
+        "prefix": "s-jj",
+        "body": [
+            "&$0 {",
+            "}"
+        ]
+    },
+    "&.m-:{}": {
+        "prefix": "s-mod",
+        "body": [
+            "&$1.${2:m}-$0 {",
+            "}"
+        ]
+    },
+    "i-wrap": {
+        "prefix": "s-wrap",
+        "body": [
+            "max-width: $1px;",
+            "aspect-ratio: ${2:asprat($3, $4)};"
+        ]
+    },
+    "i-asprat": {
+        "prefix": "s-asprat",
+        "body": [
+            "aspect-ratio: f.asprat($1, $0);"
+        ]
+    },
+    "i-heightrat": {
+        "prefix": "s-heightrat",
+        "body": [
+            "height: heightrat(${1:newWidth}, ${2:oldWidth}, ${3:oldHeight});"
+        ]
+    },
+    "position fix": {
+        "prefix": "s-posfix",
+        "body": [
+            "calc(50% ${1:-} $0px)"
+        ]
+    },
+    "css var": {
+        "prefix": "s-var",
+        "body": [
+            "var(--$0)"
+        ]
+    },
+    "url-img": {
+        "prefix": "s-urlimg",
+        "body": [
+            "/img$0"
+        ]
+    },
+    "url-svg": {
+        "prefix": "s-urlsvg",
+        "body": [
+            "/img/svg$0"
+        ]
+    },
+    "url-sprite": {
+        "prefix": "s-urlspr",
+        "body": [
+            "/img/svg/sprite.svg#$0"
+        ]
+    },
+    "2dppx": {
+        "prefix": "s-dppx2",
+        "body": [
+            "@media (min-resolution: 2dppx) {",
+            " $0",
+            "}"
+        ]
+    },
+    "@use": {
+        "prefix": "s-use",
+        "body": [
+            "@use './sass-tools/index.scss' as *;"
+        ]
+    },
+    "@keyframes percent": {
+        "prefix": "s-kpercent",
+        "body": [
+            "${1:0}% {",
+            " $0",
+            "}"
+        ]
+    },
+    "@use tools": {
+        "prefix": "s-use-tools",
+        "body": [
+            "@use '${0:@/assets}/scss/tools' as *;"
+        ]
+    },
+    "css base": {
+        "prefix": "s-base",
+        "body": [
+            ".$1 {$0}"
+        ]
+    },
+    "font-size: pxToRem": {
+        "prefix": "s-rem",
+        "body": [
+            "pxToRem($0) "
+        ],
+        "description": ""
+    }
+}

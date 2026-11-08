@@ -1,0 +1,39 @@
+{
+    "name": "my-custom-snippets",
+    "contributes": {
+        "snippets": [
+            {
+                "language": "html",
+                "path": "./html.json"
+            },
+            {
+                "language": "css",
+                "path": "./scss.json"
+            },
+            {
+                "language": "scss",
+                "path": "./scss.json"
+            },
+            {
+                "language": "javascript",
+                "path": "./js-ts.json"
+            },
+            {
+                "language": "typescript",
+                "path": "./js-ts.json"
+            },
+            {
+                "language": "typescriptreact",
+                "path": "./js-ts.json"
+            },
+            {
+                "language": "typescriptreact",
+                "path": "./react.json"
+            },
+            {
+                "language": "ejs",
+                "path": "./ejs.json"
+            }
+        ]
+    }
+}

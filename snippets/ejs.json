@@ -1,0 +1,42 @@
+{
+    "ejs main": {
+        "prefix": "ej-jj",
+        "body": [
+            "<%$0 %>"
+        ]
+    },
+    "ejs full": {
+        "prefix": "ej-jf",
+        "body": [
+            "<%",
+            "  $0",
+            "%>"
+        ]
+    },
+    "ejs includes": {
+        "prefix": "ej-include",
+        "body": [
+            "<%- include('$1', {$0 }); %>"
+        ]
+    },
+    "ejs-props": {
+        "prefix": "ej-pp",
+        "body": [
+            "props.$0"
+        ]
+    },
+    "ejs-props-obj": {
+        "prefix": "ej-po",
+        "body": [
+            "props : {",
+            "  $0",
+            "}"
+        ]
+    },
+    "": {
+        "prefix": "",
+        "body": [
+            ""
+        ]
+    }
+}

@@ -98,6 +98,9 @@ do
 
     require('custom.options')
 
+    -- Загружаем локальные секреты
+    pcall(require, 'custom.local_env')
+
     -- Set to true if you have a Nerd Font installed and selected in the terminal
     vim.g.have_nerd_font = false
 
@@ -184,6 +187,8 @@ end
 -- basic keymaps, basic autocmds
 -- ============================================================
 do
+
+    require 'custom.keymaps'
     -- [[ Basic Keymaps ]]
     --  See `:help vim.keymap.set()`
 
@@ -526,33 +531,33 @@ do
     }
 
     -- Useful plugin to show you pending keybinds.
-    vim.pack.add {gh 'folke/which-key.nvim'}
-    require('which-key').setup {
-        preset = "helix",
-        -- Delay between pressing a key and opening which-key (milliseconds)
-        delay = 0,
-        icons = {
-            mappings = vim.g.have_nerd_font
-        },
-        -- Document existing key chains
-        spec = {{
-            '<leader>s',
-            group = '[S]earch',
-            mode = {'n', 'v'}
-        }, {
-            '<leader>t',
-            group = '[T]oggle'
-        }, {
-            '<leader>h',
-            group = 'Git [H]unk',
-            mode = {'n', 'v'}
-        }, -- Enable gitsigns recommended keymaps first
-        {
-            'gr',
-            group = 'LSP Actions',
-            mode = {'n'}
-        }}
-    }
+    -- vim.pack.add {gh 'folke/which-key.nvim'}
+    -- require('which-key').setup {
+    --     preset = "helix",
+    --     -- Delay between pressing a key and opening which-key (milliseconds)
+    --     delay = 0,
+    --     icons = {
+    --         mappings = vim.g.have_nerd_font
+    --     },
+    --     -- Document existing key chains
+    --     spec = {{
+    --         '<leader>s',
+    --         group = '[S]earch',
+    --         mode = {'n', 'v'}
+    --     }, {
+    --         '<leader>t',
+    --         group = '[T]oggle'
+    --     }, {
+    --         '<leader>h',
+    --         group = 'Git [H]unk',
+    --         mode = {'n', 'v'}
+    --     }, -- Enable gitsigns recommended keymaps first
+    --     {
+    --         'gr',
+    --         group = 'LSP Actions',
+    --         mode = {'n'}
+    --     }}
+    -- }
 
     -- [[ Colorscheme ]]
     -- You can easily change to a different colorscheme.
@@ -1285,3 +1290,10 @@ end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+-- ============================================================
+-- SECTION 11: CUSTOM AUTOCMDS
+-- ============================================================
+do
+    require 'custom.autocmds'
+end

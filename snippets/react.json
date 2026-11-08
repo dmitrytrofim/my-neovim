@@ -1,0 +1,180 @@
+{
+    "img-url": {
+        "prefix": "rt-urlimg",
+        "body": [
+            "@/assets/img${0:/svg} "
+        ]
+    },
+    "sprite-url": {
+        "prefix": "rt-urlspr",
+        "body": [
+            "/assets/img/svg/sprite.svg#$0 "
+        ]
+    },
+    "img-full": {
+        "prefix": "rt-imgfull",
+        "body": [
+            "<img className=\"\" src=${3:\"$0\"} alt=\"$1\" ${2:loading=\"lazy\"} />"
+        ]
+    },
+    "section": {
+        "prefix": "rt-cc",
+        "body": [
+            "<${1:section} className=\"\">",
+            "  <Container>",
+            "    <div className=\"\">$0</div>",
+            "  </Container>",
+            "</${1:section}>"
+        ]
+    },
+    "export default short": {
+        "prefix": "rt-file-short",
+        "body": [
+            "export default function ${TM_DIRECTORY/^.*[\\\\\\/](.*)$/${1:/pascalcase}/} () {",
+            "  return ($0)",
+            "}"
+        ],
+        "description": ""
+    },
+    "export default short arr": {
+        "prefix": "rt-arr-short",
+        "body": [
+            "const ${TM_DIRECTORY/^.*[\\\\\\/](.*)$/${1:/pascalcase}/} = () => {",
+            "  return ($0)",
+            "}",
+            "",
+            "export default ${TM_DIRECTORY/^.*[\\\\\\/](.*)$/${1:/pascalcase}/}"
+        ],
+        "description": ""
+    },
+    "export default long": {
+        "prefix": "rt-file-long",
+        "body": [
+            "function ${TM_DIRECTORY/^.*[\\\\\\/](.*)$/${1:/pascalcase}/} () {",
+            "  return $0",
+            "}",
+            "",
+            "export default ${TM_DIRECTORY/^.*[\\\\\\/](.*)$/${1:/pascalcase}/};"
+        ],
+        "description": ""
+    },
+    "func": {
+        "prefix": "rt-func",
+        "body": [
+            "function ${1:Func} () {",
+            "  return $0",
+            "}"
+        ],
+        "description": ""
+    },
+    "eslink-dis": {
+        "prefix": "rt-esl-dis",
+        "body": [
+            "// eslint-disable-line"
+        ],
+        "description": ""
+    },
+    "import img": {
+        "prefix": "rt-imp-img",
+        "body": [
+            "import $1 from '@/assets/img${0:/svg}'"
+        ],
+        "description": ""
+    },
+    "import next img": {
+        "prefix": "rt-imp-next-img",
+        "body": [
+            "import $1 from '@/app/img${0:/svg}'"
+        ],
+        "description": ""
+    },
+    "use client": {
+        "prefix": "rt-use-client",
+        "body": [
+            "'use client';"
+        ],
+        "description": ""
+    },
+    "use memo": {
+        "prefix": "rt-use-memo",
+        "body": [
+            "'use memo';"
+        ],
+        "description": ""
+    },
+    "navigation": {
+        "prefix": "rt-navig",
+        "body": [
+            "<nav className=\"\">",
+            "  <ul className=\"\">",
+            "    <li className=\"\">",
+            "      <a href=\"#\" className=\"\"></a>",
+            "    </li>",
+            "  </ul>",
+            "</nav>"
+        ]
+    },
+    "next image": {
+        "prefix": "rt-next-image",
+        "body": [
+            "<Image src={$0} alt=\"$1\" />"
+        ],
+        "description": ""
+    },
+    "image next": {
+        "prefix": "rt-next-img-imp",
+        "body": [
+            "import $1 from '@/public$0';"
+        ],
+        "description": ""
+    },
+    "class module": {
+        "prefix": "rt-cl-mod",
+        "body": [
+            "className={styles.$0}"
+        ],
+        "description": ""
+    },
+    "class module cn": {
+        "prefix": "rt-cl-mod-cn",
+        "body": [
+            "className={cn('${0:container}', styles.$1)}"
+        ],
+        "description": ""
+    },
+    "add module scss": {
+        "prefix": "rt-imp-module",
+        "body": [
+            "import styles from '.$0';"
+        ],
+        "description": ""
+    },
+    "import others": {
+        "prefix": "rt-imp-oth",
+        "body": [
+            "import $1 from '$0';"
+        ],
+        "description": ""
+    },
+    "import clsx": {
+        "prefix": "rt-imp-clsx",
+        "body": [
+            "import clsx from 'clsx';"
+        ],
+        "description": ""
+    },
+    "element module": {
+        "prefix": "rt-elem-mod",
+        "body": [
+            "<${1:div} className={styles.$2}>$0</${1:div}>"
+        ],
+        "description": ""
+    },
+    "clsx": {
+        "prefix": "rt-clsx",
+        "body": [
+            "clsx($0)"
+        ],
+        "description": ""
+    }
+}
