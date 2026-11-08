@@ -1,4 +1,3 @@
--- lua/custom/plugins/snacks.lua
 vim.pack.add {'https://github.com/folke/snacks.nvim'}
 
 local ok, snacks = pcall(require, 'snacks')
@@ -7,10 +6,22 @@ if not ok then
     return
 end
 
+-- Создаем безопасную функцию для открытия проектов
+-- Она уходит с дашборда в пустой буфер, а потом открывает пикер
+_G.OpenProjects = function()
+    vim.cmd("enew") -- Создаем новый пустой буфер, чтобы избежать ошибки modifiable
+    Snacks.picker.projects()
+end
+
 snacks.setup {
-    -- Включаем только самые базовые модули
     picker = {
-        enabled = true
+        enabled = true,
+        sources = {
+            projects = {
+                -- Укажи свои реальные пути к папкам с проектами
+                dirs = {"~/Main/WebDev/practice", "~/Main/WebDev"}
+            }
+        }
     },
     terminal = {
         enabled = true
@@ -29,23 +40,9 @@ snacks.setup {
     },
     explorer = {
         enabled = true
-    }, -- <--- ВКЛЮЧАЕМ EXPLORER
-
+    },
     dashboard = {
-        enabled = true,
-        sections = {{
-            section = "header"
-        }, {
-            section = "keys",
-            gap = 1,
-            padding = 1
-        }, {
-            section = "recent_files",
-            icon = " ",
-            title = "Recent",
-            indent = 2,
-            padding = 1
-        }}
+        enabled = false
     }
 }
 

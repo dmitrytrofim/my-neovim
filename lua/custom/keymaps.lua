@@ -12,10 +12,9 @@ vim.keymap.set('n', '<F12>', macros.copy_class_to_right_window, {
 })
 
 -- Быстрый возврат на стартовую страницу (dashboard)
--- NOTE: конфликт с which-key-группой <leader>h = 'Git [H]unk'.
--- Реши: либо переименуй (например, <leader>H), либо убери группу из which-key spec.
 vim.keymap.set('n', '<leader>h', function()
-    require('snacks').dashboard.open()
+    -- Используем dashboard-nvim, а не snacks
+    vim.cmd('Dashboard')
 end, {
     desc = 'Open home'
 })

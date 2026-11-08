@@ -67,3 +67,33 @@ require('bufferline').setup {
         end
     }
 }
+
+-- === BUFFER MANAGEMENT (BUFFERLINE) ===
+-- Navigation
+vim.keymap.set('n', '<leader>bn', '<cmd>BufferLineCycleNext<cr>', {
+    desc = 'Next buffer'
+})
+vim.keymap.set('n', '<leader>bp', '<cmd>BufferLineCyclePrev<cr>', {
+    desc = 'Previous buffer'
+})
+
+-- Closing
+vim.keymap.set('n', '<leader>bd', '<cmd>bdelete<cr>', {
+    desc = 'Delete current buffer'
+})
+vim.keymap.set('n', '<leader>bo', '<cmd>BufferLineCloseOthers<cr>', {
+    desc = 'Close other buffers'
+})
+
+-- Buffer list via Telescope
+vim.keymap.set('n', '<leader>bb', '<cmd>Telescope buffers<cr>', {
+    desc = 'List buffers'
+})
+
+-- Moving tabs
+vim.keymap.set('n', '<leader>bh', '<cmd>BufferLineMovePrev<cr>', {
+    desc = 'Move buffer left'
+})
+vim.keymap.set('n', '<leader>bl', '<cmd>BufferLineMoveNext<cr>', {
+    desc = 'Move buffer right'
+})
