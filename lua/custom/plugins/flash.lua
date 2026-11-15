@@ -27,3 +27,9 @@ vim.keymap.set({"n", "x", "o"}, "<leader>k", function()
 end, {
     desc = "Flash Treesitter"
 })
+
+-- Убираем курсив у затемненного фона (FlashBackdrop), оставляя его серым
+vim.api.nvim_set_hl(0, "FlashBackdrop", {
+    fg = "#545c7e",
+    italic = false
+})

@@ -11,6 +11,8 @@ _G.OpenProjects = function()
     Snacks.picker.projects()
 end
 
+vim.g.snacks_animate = false
+
 snacks.setup {
     picker = {
         enabled = true,
@@ -49,8 +51,21 @@ snacks.setup {
         enabled = true
     },
     indent = {
-        enabled = true
+        enabled = true,
+        indent = {
+            char = " ", -- пробел для фоновых (серых) линий
+            only_scope = true
+        },
+        animate = {
+            enabled = false
+        },
+        scope = {
+            enabled = true,
+            char = "│", -- сплошная черта для текущей секции
+            hl = "SnacksIndentScope"
+        }
     },
+
     scope = {
         enabled = true
     },

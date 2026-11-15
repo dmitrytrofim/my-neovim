@@ -1,4 +1,11 @@
-vim.pack.add {'https://github.com/L3MON4D3/LuaSnip', 'https://github.com/saghen/blink.cmp'}
+local gh = function(repo)
+    return 'https://github.com/' .. repo
+end
+
+vim.pack.add {gh 'L3MON4D3/LuaSnip', {
+    src = gh 'saghen/blink.cmp',
+    version = vim.version.range('1.*')
+}}
 
 require('luasnip').setup {}
 
@@ -7,7 +14,7 @@ require('blink.cmp').setup {
         preset = 'default',
         -- Твоя фишка: При нажатии <Esc> сначала принудительно очищаем сниппет, затем скрываем меню
         -- В файле lua/custom/plugins/blink.lua внутри keymap = { ... }
-        ['<CR>'] = {'accept', 'fallback'},
+        ['<CR>'] = {'fallback'}, -- Enter всегда просто переносит строку и никогда не принимает подсказки
         ['<Tab>'] = {'accept', 'snippet_forward', 'fallback'},
         ['<S-Tab>'] = {'snippet_backward', 'select_prev', 'fallback'},
         ['<C-l>'] = {'accept', 'fallback'},
@@ -26,7 +33,8 @@ require('blink.cmp').setup {
         },
         keymap = {
             preset = 'cmdline',
-            ['<CR>'] = {'accept', 'fallback'},
+            ['<Tab>'] = {'accept', 'fallback'},
+            ['<S-Tab>'] = {'select_prev', 'fallback'},
             ['<Up>'] = {'select_prev', 'fallback'},
             ['<Down>'] = {'select_next', 'fallback'},
             ['<Right>'] = {'accept', 'fallback'}

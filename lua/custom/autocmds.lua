@@ -130,36 +130,42 @@ vim.api.nvim_create_autocmd('FileType', {
         end
 
         vim.keymap.set('i', '<CR>', function()
-            -- 1. Если открыто меню blink.cmp — принимаем подсказку (сниппет только раскрывается)
-            local ok_blink, blink = pcall(require, 'blink.cmp')
-            if ok_blink and blink.is_visible() then
-                blink.accept()
-                return
-            end
-
-            -- 2. Если меню закрыто — сбрасываем активный сниппет, чтобы палочки-подсказки исчезли
-            local ok_ls, luasnip = pcall(require, 'luasnip')
-            if ok_ls and luasnip.in_snippet() then
-                luasnip.unlink_current()
-            end
-
-            -- 3. Проверяем символы слева и справа от курсора для разрыва ><
+            -- 1. СНАЧАЛА проверяем символы слева и справа от курсора для разрыва ><
+            -- Если курсор стоит между тегами (например, <div>|</div>), всегда делаем разрыв с отступом
             local line = vim.api.nvim_get_current_line()
             local col = vim.api.nvim_win_get_cursor(0)[2]
             local before = line:sub(col, col)
             local after = line:sub(col + 1, col + 1)
 
             if before == '>' and after == '<' then
+                local ok_ls, luasnip = pcall(require, 'luasnip')
+                if ok_ls and luasnip.in_snippet() then
+                    luasnip.unlink_current()
+                end
+
                 local keys = vim.api.nvim_replace_termcodes('<CR><C-o>O<C-t>', true, false, true)
                 vim.api.nvim_feedkeys(keys, 'n', false)
                 return
+            end
+
+            -- 2. Если мы НЕ между тегами и открыто меню blink.cmp — принимаем подсказку
+            local ok_blink, blink = pcall(require, 'blink.cmp')
+            if ok_blink and blink.is_visible() then
+                blink.accept()
+                return
+            end
+
+            -- 3. Если меню закрыто — сбрасываем активный сниппет, чтобы палочки-подсказки исчезли
+            local ok_ls, luasnip = pcall(require, 'luasnip')
+            if ok_ls and luasnip.in_snippet() then
+                luasnip.unlink_current()
             end
 
             -- 4. Обычный перенос строки
             local cr = vim.api.nvim_replace_termcodes('<CR>', true, false, true)
             vim.api.nvim_feedkeys(cr, 'n', false)
         end, {
-            buffer = true, -- или ev.buf, как у тебя в автокоманде
+            buffer = true,
             silent = true
         })
 

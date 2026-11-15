@@ -19,27 +19,26 @@ end, {
     desc = 'Open home'
 })
 
--- F5: форматировать и сохранить (normal)
--- NOTE: async=true + wall может сохранить неотформатированный буфер.
--- Здесь ждём завершения формата, потом wall.
-vim.keymap.set('n', '<F5>', function()
+local function format_and_save()
     require('conform').format({
-        async = false,
+        async = true,
         lsp_format = 'fallback'
-    })
-    vim.cmd('wall')
-end, {
+    }, function(err)
+        if not err then
+            vim.cmd('silent! wall')
+        end
+    end)
+end
+
+-- F5: форматировать и сохранить (normal)
+vim.keymap.set('n', '<F5>', format_and_save, {
     desc = 'Форматировать и сохранить все файлы'
 })
 
 -- F5: форматировать и сохранить (insert)
 vim.keymap.set('i', '<F5>', function()
     vim.cmd('stopinsert')
-    require('conform').format({
-        async = false,
-        lsp_format = 'fallback'
-    })
-    vim.cmd('wall')
+    format_and_save()
 end, {
     desc = 'Форматировать и сохранить все файлы'
 })
@@ -215,27 +214,40 @@ vim.keymap.set('t', '<C-S-v>', '<C-\\><C-n>"+pi', {
 -- Умный <Esc> в Insert-режиме:
 -- 1. Если открыто меню blink.cmp (Emmet / подсказки) — закрывает его и оставляет в Insert-режиме.
 -- 2. Если меню закрыто — сбрасывает активный сниппет LuaSnip и выходит в Normal-режим.
-vim.keymap.set('i', '<Esc>', function()
-    -- 1. Если открыто окно подсказок blink.cmp (Emmet / меню) — закрываем и остаёмся в Insert
+vim.keymap.set({'i', 's'}, '<Esc>', function()
+    local handled = false
+
+    -- 1. Закрываем меню blink.cmp и документацию, если открыты
     local ok_blink, blink = pcall(require, 'blink.cmp')
     if ok_blink and (blink.is_menu_visible() or blink.is_documentation_visible()) then
         blink.hide()
         blink.hide_documentation()
-        return
+        handled = true
     end
 
-    -- 2. Если активен сниппет (есть точки-подсказки) — убираем их и остаёмся в Insert
+    -- 2. Сбрасываем активный сниппет LuaSnip (убираем метки для прыжка)
     local ok_ls, luasnip = pcall(require, 'luasnip')
     if ok_ls and (luasnip.in_snippet() or luasnip.session.current_nodes[vim.api.nvim_get_current_buf()]) then
         luasnip.unlink_current()
+        handled = true
+    end
+
+    -- 3. Дополнительно сбрасываем встроенные метки сниппетов Neovim (если Emmet развернулся через vim.snippet)
+    if vim.snippet and vim.snippet.active() then
+        vim.snippet.stop()
+        handled = true
+    end
+
+    -- Если на этом нажатии закрыли меню или сняли метки — остаёмся в Insert
+    if handled then
         return
     end
 
-    -- 3. Если ни меню, ни точек-подсказок нет — выходим в Normal-режим
+    -- Иначе сразу переходим в Normal-режим
     local esc = vim.api.nvim_replace_termcodes('<Esc>', true, false, true)
     vim.api.nvim_feedkeys(esc, 'n', false)
 end, {
-    desc = 'Скрыть подсказки или точки сниппета, иначе выйти в Normal',
+    desc = '1-й Esc: убрать меню/метки сниппета; 2-й Esc: выйти в Normal',
     silent = true
 })
 

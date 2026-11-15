@@ -128,3 +128,6 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufReadPost", "VimEnter"}, {
 vim.opt.fillchars:append{
     eob = ' '
 }
+
+-- Освобождаем <Tab> от встроенного wildmenu, чтобы blink.cmp корректно вставлял первый пункт по <Tab>
+vim.opt.wildchar = 0

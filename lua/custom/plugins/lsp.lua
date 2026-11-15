@@ -1,11 +1,19 @@
--- 1. Глобальные настройки для ВСЕХ серверов
-vim.lsp.config('*', {
-    handlers = {
-        ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-            border = 'rounded',
-            focusable = true
+-- 1. Настройка хоткея K (hover) с рамкой и фокусом для всех LSP-серверов
+vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('CustomLspHover', {
+        clear = true
+    }),
+    callback = function(event)
+        vim.keymap.set('n', 'K', function()
+            vim.lsp.buf.hover {
+                border = 'rounded',
+                focusable = true
+            }
+        end, {
+            buffer = event.buf,
+            desc = 'LSP: Hover Documentation'
         })
-    }
+    end
 })
 
 -- 2. Настройки конкретных серверов
@@ -19,18 +27,16 @@ local has_blink, blink = pcall(require, 'blink.cmp')
 if has_blink then
     capabilities = blink.get_lsp_capabilities(capabilities)
 else
-    -- Фоллбек на случай, если blink не загружен (хотя он должен быть)
     capabilities.textDocument.completion.completionItem.snippetSupport = true
 end
 
--- Применяем capabilities к HTML, чтобы он начал отдавать теги и атрибуты
-vim.lsp.config('html', {
+-- Применяем capabilities ко всем серверам глобально (Vim 0.12+ way)
+vim.lsp.config('*', {
     capabilities = capabilities
 })
 
 -- Настройка CSS (отключаем ругань на пустые классы)
 vim.lsp.config('cssls', {
-    capabilities = capabilities,
     settings = {
         css = {
             lint = {
@@ -50,21 +56,20 @@ vim.lsp.config('cssls', {
     }
 })
 
--- Настройка Emmet (не показывать назойливые подсказки)
+-- Настройка Emmet (разворачиваем сокращения, но отключаем назойливые автоподсказки)
 vim.lsp.config('emmet_language_server', {
-    capabilities = capabilities,
     init_options = {
-        showExpandedAbbreviation = 'never',
+        showExpandedAbbreviation = 'always',
         showAbbreviationSuggestions = false
     }
 })
 
--- 3. Установка и включение через Mason
-require('mason-lspconfig').setup {
-    ensure_installed = servers,
-    automatic_installation = true
+-- 3. Установка серверов через Mason и их включение
+require('mason-tool-installer').setup {
+    ensure_installed = servers
 }
 
 for _, server in ipairs(servers) do
     vim.lsp.enable(server)
 end
+
