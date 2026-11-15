@@ -251,3 +251,48 @@ end, {
     silent = true
 })
 
+local map = vim.keymap.set
+
+-- Регистрация группы в which-key (для красивой подписи +Windows)
+local ok, wk = pcall(require, 'which-key')
+if ok then
+    wk.add({{
+        '<leader>w',
+        group = 'Windows',
+        icon = ' '
+    }})
+end
+
+-- Разделение экрана (сплиты)
+map('n', '<leader>wv', '<C-w>v', {
+    desc = 'Split window vertically (справа)'
+})
+map('n', '<leader>ws', '<C-w>s', {
+    desc = 'Split window horizontally (снизу)'
+})
+map('n', '<leader>we', '<C-w>=', {
+    desc = 'Make splits equal size (выровнять)'
+})
+map('n', '<leader>wx', '<cmd>close<CR>', {
+    desc = 'Close current split (закрыть)'
+})
+map('n', '<leader>wo', '<cmd>only<CR>', {
+    desc = 'Close other splits (оставить одно)'
+})
+
+-- Навигация между окнами через <leader>w
+map('n', '<leader>wh', '<C-w>h', {
+    desc = 'Go to left window'
+})
+map('n', '<leader>wj', '<C-w>j', {
+    desc = 'Go to lower window'
+})
+map('n', '<leader>wk', '<C-w>k', {
+    desc = 'Go to upper window'
+})
+map('n', '<leader>wl', '<C-w>l', {
+    desc = 'Go to right window'
+})
+map('n', '<leader>ww', '<C-w>w', {
+    desc = 'Switch to next window'
+})

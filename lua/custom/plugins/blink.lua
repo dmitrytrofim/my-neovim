@@ -69,6 +69,10 @@ require('blink.cmp').setup {
         menu = {
             auto_show = true,
             auto_show_delay_ms = 50 -- задержка 50мс перед показом
+        },
+        documentation = {
+            auto_show = true,
+            auto_show_delay_ms = 100 -- задержка перед показом описания (можно поставить 0 или 200)
         }
     }
 }
