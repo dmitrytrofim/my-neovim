@@ -1,4 +1,4 @@
-vim.pack.add {'https://github.com/folke/snacks.nvim'}
+vim.pack.add {'https://github.com/folke/snacks.nvim', 'https://github.com/nvim-tree/nvim-web-devicons'}
 
 local ok, snacks = pcall(require, 'snacks')
 if not ok then
@@ -6,20 +6,39 @@ if not ok then
     return
 end
 
--- Создаем безопасную функцию для открытия проектов
--- Она уходит с дашборда в пустой буфер, а потом открывает пикер
+-- Открываем пикер проектов напрямую, без создания пустого буфера
 _G.OpenProjects = function()
-    vim.cmd("enew") -- Создаем новый пустой буфер, чтобы избежать ошибки modifiable
     Snacks.picker.projects()
 end
 
 snacks.setup {
     picker = {
         enabled = true,
+        win = {
+            input = {
+                keys = {
+                    ["<Esc>"] = {
+                        "focus_list",
+                        mode = {"i", "n"}
+                    }
+                }
+            }
+        },
         sources = {
             projects = {
-                -- Укажи свои реальные пути к папкам с проектами
-                dirs = {"~/Main/WebDev/practice", "~/Main/WebDev"}
+                dirs = {"~/Main/WebDev/practice", "~/Main/WebDev"},
+                -- Переопределяем действие при нажатии Enter:
+                confirm = function(picker, item)
+                    if not item then
+                        return
+                    end
+                    -- Меняем рабочую директорию и сразу открываем файлы внутри этого же окна пикера
+                    vim.fn.chdir(item.file)
+                    picker:action("picker_files")
+                end
+            },
+            explorer = {
+                auto_close = true
             }
         }
     },
