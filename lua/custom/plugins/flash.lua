@@ -30,6 +30,6 @@ end, {
 
 -- Убираем курсив у затемненного фона (FlashBackdrop), оставляя его серым
 vim.api.nvim_set_hl(0, "FlashBackdrop", {
-    fg = "#545c7e",
+    fg = "#c1c1c1",
     italic = false
 })

@@ -40,7 +40,15 @@ snacks.setup {
                 end
             },
             explorer = {
-                auto_close = true
+                auto_close = true,
+                win = {
+                    list = {
+                        keys = {
+                            ["<Left>"] = "explorer_close",
+                            ["<Right>"] = "confirm"
+                        }
+                    }
+                }
             }
         }
     },
