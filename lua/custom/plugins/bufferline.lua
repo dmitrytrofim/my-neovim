@@ -97,3 +97,11 @@ vim.keymap.set('n', '<leader>bh', '<cmd>BufferLineMovePrev<cr>', {
 vim.keymap.set('n', '<leader>bl', '<cmd>BufferLineMoveNext<cr>', {
     desc = 'Move buffer right'
 })
+-- Navigation
+vim.keymap.set('n', '<S-h>', '<cmd>BufferLineCyclePrev<cr>', {
+    desc = 'Previous buffer'
+})
+vim.keymap.set('n', '<S-l>', '<cmd>BufferLineCycleNext<cr>', {
+    desc = 'Next buffer'
+})
+
