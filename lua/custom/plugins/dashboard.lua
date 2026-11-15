@@ -2,7 +2,7 @@ local gh = function(repo)
     return 'https://github.com/' .. repo
 end
 
-vim.pack.add {gh 'nvimdev/dashboard-nvim', gh 'nvim-tree/nvim-web-devicons'}
+vim.pack.add {gh 'nvimdev/dashboard-nvim'}
 
 require('dashboard').setup {
     theme = 'hyper',
@@ -57,3 +57,33 @@ require('dashboard').setup {
         }
     }
 }
+
+-- Прозрачная группа подсветки курсора (только для dashboard)
+vim.api.nvim_set_hl(0, 'DashboardHiddenCursor', {
+    blend = 100,
+    nocombine = true
+})
+
+-- Сохраняем исходный guicursor (избегаем жесткого кодирования)
+local original_guicursor = vim.go.guicursor
+
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'dashboard',
+    callback = function()
+        -- Ключевой момент: используем vim.schedule, чтобы дождаться завершения перерисовки буфера Neovide
+        vim.schedule(function()
+            vim.opt.guicursor = 'a:DashboardHiddenCursor'
+        end)
+
+        -- При выходе из буфера восстанавливаем
+        vim.api.nvim_create_autocmd('BufLeave', {
+            buffer = 0,
+            once = true,
+            callback = function()
+                vim.schedule(function()
+                    vim.opt.guicursor = original_guicursor
+                end)
+            end
+        })
+    end
+})

@@ -50,9 +50,7 @@ _G.Snacks = snacks
 
 -- === ХОТКЕЙ ДЛЯ ДЕРЕВА ===
 vim.keymap.set("n", "<leader>e", function()
-    Snacks.explorer({
-        enter = true
-    })
+    Snacks.explorer()
 end, {
     desc = "Explorer"
 })

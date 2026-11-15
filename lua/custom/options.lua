@@ -123,3 +123,8 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufReadPost", "VimEnter"}, {
         end
     end
 })
+
+-- Скрыть '~' на пустых строках и '~' после конца файла (EndOfBuffer)
+vim.opt.fillchars:append{
+    eob = ' '
+}
