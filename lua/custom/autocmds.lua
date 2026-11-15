@@ -129,19 +129,40 @@ vim.api.nvim_create_autocmd('FileType', {
             vim.opt_local.softtabstop = 2
         end
 
-        -- Enter внутри тегов: >|  <  → разворот на новую строку с отступом
         vim.keymap.set('i', '<CR>', function()
+            -- 1. Если открыто меню blink.cmp — принимаем подсказку (сниппет только раскрывается)
+            local ok_blink, blink = pcall(require, 'blink.cmp')
+            if ok_blink and blink.is_visible() then
+                blink.accept()
+                return
+            end
+
+            -- 2. Если меню закрыто — сбрасываем активный сниппет, чтобы палочки-подсказки исчезли
+            local ok_ls, luasnip = pcall(require, 'luasnip')
+            if ok_ls and luasnip.in_snippet() then
+                luasnip.unlink_current()
+            end
+
+            -- 3. Проверяем символы слева и справа от курсора для разрыва ><
             local line = vim.api.nvim_get_current_line()
             local col = vim.api.nvim_win_get_cursor(0)[2]
-            if col > 0 and line:sub(col, col) == '>' and line:sub(col + 1, col + 1) == '<' then
-                return '<CR><Esc>O<Tab>'
-            else
-                return '<CR>'
+            local before = line:sub(col, col)
+            local after = line:sub(col + 1, col + 1)
+
+            if before == '>' and after == '<' then
+                local keys = vim.api.nvim_replace_termcodes('<CR><C-o>O<C-t>', true, false, true)
+                vim.api.nvim_feedkeys(keys, 'n', false)
+                return
             end
+
+            -- 4. Обычный перенос строки
+            local cr = vim.api.nvim_replace_termcodes('<CR>', true, false, true)
+            vim.api.nvim_feedkeys(cr, 'n', false)
         end, {
-            expr = true,
-            buffer = true
+            buffer = true, -- или ev.buf, как у тебя в автокоманде
+            silent = true
         })
+
     end
 })
 

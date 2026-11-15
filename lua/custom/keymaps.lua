@@ -211,3 +211,31 @@ vim.keymap.set('t', '<C-/>', open_root_terminal, {
 vim.keymap.set('t', '<C-S-v>', '<C-\\><C-n>"+pi', {
     desc = 'Вставить из системного буфера'
 })
+
+-- Умный <Esc> в Insert-режиме:
+-- 1. Если открыто меню blink.cmp (Emmet / подсказки) — закрывает его и оставляет в Insert-режиме.
+-- 2. Если меню закрыто — сбрасывает активный сниппет LuaSnip и выходит в Normal-режим.
+vim.keymap.set('i', '<Esc>', function()
+    -- 1. Если открыто окно подсказок blink.cmp (Emmet / меню) — закрываем и остаёмся в Insert
+    local ok_blink, blink = pcall(require, 'blink.cmp')
+    if ok_blink and (blink.is_menu_visible() or blink.is_documentation_visible()) then
+        blink.hide()
+        blink.hide_documentation()
+        return
+    end
+
+    -- 2. Если активен сниппет (есть точки-подсказки) — убираем их и остаёмся в Insert
+    local ok_ls, luasnip = pcall(require, 'luasnip')
+    if ok_ls and (luasnip.in_snippet() or luasnip.session.current_nodes[vim.api.nvim_get_current_buf()]) then
+        luasnip.unlink_current()
+        return
+    end
+
+    -- 3. Если ни меню, ни точек-подсказок нет — выходим в Normal-режим
+    local esc = vim.api.nvim_replace_termcodes('<Esc>', true, false, true)
+    vim.api.nvim_feedkeys(esc, 'n', false)
+end, {
+    desc = 'Скрыть подсказки или точки сниппета, иначе выйти в Normal',
+    silent = true
+})
+

@@ -7,29 +7,29 @@ local luasnip = require('luasnip')
 local types = require('luasnip.util.types')
 
 luasnip.setup {
-    history = true,
-    delete_check_events = "TextChanged,TextChangedI",
-    updateevents = "TextChanged,TextChangedI",
+    history = false, -- Отключаем хранение истории завершённых сниппетов, чтобы палочки не висели
+    region_check_events = 'CursorMoved,CursorMovedI,InsertEnter', -- Убирает метки, как только курсор ушёл из зоны сниппета
+    delete_check_events = 'TextChanged,TextChangedI',
+    update_events = 'TextChanged,TextChangedI',
     ext_opts = {
-        -- Настройка для обычных мест вставки ($1, $2 и т.д.)
+        -- Показываем метку только для промежуточных точек ($1, $2 и т.д.)
         [types.insertNode] = {
             passive = {
-                virt_text = {{"│", "Comment"}},
-                virt_text_pos = "inline"
+                virt_text = {{'│', 'Comment'}},
+                virt_text_pos = 'inline'
             }
         },
-        -- Настройка для финальной точки выхода ($0)
+        -- Для финальной точки ($0) метку не рисуем, чтобы она не зависала после выхода
         [types.exitNode] = {
             passive = {
-                virt_text = {{"│", "Comment"}},
-                virt_text_pos = "inline"
+                virt_text = {}
             }
         }
     }
 }
 
 -- 3. Загружаем сниппеты (встроенные + твои кастомные)
-require("luasnip.loaders.from_vscode").lazy_load()
-require("luasnip.loaders.from_vscode").lazy_load({
-    paths = {vim.fn.stdpath("config") .. "/snippets"}
-})
+require('luasnip.loaders.from_vscode').lazy_load()
+require('luasnip.loaders.from_vscode').lazy_load {
+    paths = {vim.fn.stdpath('config') .. '/snippets'}
+}

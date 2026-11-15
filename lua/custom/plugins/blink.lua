@@ -6,12 +6,7 @@ require('blink.cmp').setup {
     keymap = {
         preset = 'default',
         -- Твоя фишка: При нажатии <Esc> сначала принудительно очищаем сниппет, затем скрываем меню
-        ['<Esc>'] = {function()
-            local ok, luasnip = pcall(require, 'luasnip')
-            if ok then
-                luasnip.unlink_current()
-            end
-        end, 'hide', 'fallback'},
+        -- В файле lua/custom/plugins/blink.lua внутри keymap = { ... }
         ['<CR>'] = {'accept', 'fallback'},
         ['<Tab>'] = {'accept', 'snippet_forward', 'fallback'},
         ['<S-Tab>'] = {'snippet_backward', 'select_prev', 'fallback'},
