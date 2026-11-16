@@ -25,7 +25,8 @@ local function format_and_save()
         lsp_format = 'fallback'
     }, function(err)
         if not err then
-            vim.cmd('silent! wall')
+            -- noautocmd отключает повторное срабатывание format_on_save, если он включён
+            vim.cmd('silent! noautocmd update')
         end
     end)
 end

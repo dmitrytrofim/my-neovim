@@ -2,39 +2,58 @@
 vim.pack.add {'https://github.com/stevearc/conform.nvim'}
 
 require('conform').setup {
-    -- Включаем форматирование при сохранении
-    format_on_save = {
-        timeout_ms = 500,
-        lsp_format = "fallback" -- Если нет prettier/eslint, пробуем через LSP
+    -- Важно: format_after_save работает асинхронно ПОСЛЕ записи и не блокирует Neovide
+    -- Либо убери его совсем, если форматируешь только по F5 и <leader>f
+    format_after_save = {
+        lsp_format = 'fallback'
     },
     formatters_by_ft = {
-        -- Для JS/TS используем ESLint
-        javascript = {"eslint"},
-        typescript = {"eslint"},
-        javascriptreact = {"eslint"},
-        typescriptreact = {"eslint"},
+        javascript = {
+            'eslint_d',
+            'eslint',
+            stop_after_first = true
+        },
+        typescript = {
+            'eslint_d',
+            'eslint',
+            stop_after_first = true
+        },
+        javascriptreact = {
+            'eslint_d',
+            'eslint',
+            stop_after_first = true
+        },
+        typescriptreact = {
+            'eslint_d',
+            'eslint',
+            stop_after_first = true
+        },
 
-        -- Для стилей — Prettier
-        css = {"prettier"},
-        scss = {"prettier"},
-        html = {"prettier"}
+        css = {
+            'prettierd',
+            'prettier',
+            stop_after_first = true
+        },
+        scss = {
+            'prettierd',
+            'prettier',
+            stop_after_first = true
+        },
+        html = {
+            'prettierd',
+            'prettier',
+            stop_after_first = true
+        }
     },
     formatters = {
+        prettierd = {
+            prepend_args = {'--tab-width', '4', '--use-tabs', 'false', '--html-whitespace-sensitivity', 'ignore',
+                            '--bracket-same-line'}
+        },
         prettier = {
-            -- Принудительно 4 пробела
-            prepend_args = {"--tab-width", "4", "--use-tabs", "false", "--html-whitespace-sensitivity", "ignore",
-                            "--bracket-same-line"}
+            prepend_args = {'--tab-width', '4', '--use-tabs', 'false', '--html-whitespace-sensitivity', 'ignore',
+                            '--bracket-same-line'}
         }
     }
 }
 
--- На всякий случай (если у тебя не объявлено в keymaps.lua): 
--- добавь маппинг для форматирования
-vim.keymap.set({"n", "v"}, "<leader>f", function()
-    require("conform").format({
-        async = true,
-        lsp_format = "fallback"
-    })
-end, {
-    desc = "Format buffer"
-})
