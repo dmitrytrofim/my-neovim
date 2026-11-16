@@ -215,3 +215,23 @@ vim.api.nvim_create_autocmd({'FocusGained', 'BufEnter', 'CursorHold'}, {
     end,
     desc = 'Перечитывать файл с диска при внешних изменениях'
 })
+
+-- Удобная навигация в окне Quickfix (список меток, ошибок и т.д.)
+-- В lua/custom/autocmds.lua
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'qf',
+    group = vim.api.nvim_create_augroup('QuickfixNavigation', {
+        clear = true
+    }),
+    callback = function(event)
+        local opts = {
+            buffer = event.buf,
+            silent = true
+        }
+
+        vim.keymap.set('n', 'l', '<CR>', opts)
+        vim.keymap.set('n', 'q', '<cmd>cclose<CR>', opts)
+        vim.keymap.set('n', 'j', 'j', opts)
+        vim.keymap.set('n', 'k', 'k', opts)
+    end
+})

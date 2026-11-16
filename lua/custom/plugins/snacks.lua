@@ -17,17 +17,41 @@ snacks.setup {
     picker = {
         enabled = true,
         win = {
+            list = {
+                keys = {
+                    ['l'] = 'confirm',
+                    ['h'] = 'close',
+                    ['d'] = 'bufdelete'
+                }
+            },
             input = {
                 keys = {
                     ["<Esc>"] = {
                         "focus_list",
-                        mode = {"i", "n"}
+                        mode = {"i"}
+                    },
+                    ['l'] = {
+                        'confirm',
+                        mode = {'n'}
+                    },
+                    ['h'] = {
+                        'close',
+                        mode = {'n'}
                     }
                 }
             }
         },
         sources = {
+            buffers = {
+                focus = 'list',
+                filter = {
+                    filter = function(item)
+                        return item.file ~= ''
+                    end
+                }
+            },
             projects = {
+                focus = 'list',
                 dirs = {"~/Main/WebDev/practice", "~/Main/WebDev"},
                 -- Переопределяем действие при нажатии Enter:
                 confirm = function(picker, item)
@@ -95,4 +119,13 @@ vim.keymap.set("n", "<leader>e", function()
     Snacks.explorer()
 end, {
     desc = "Explorer"
+})
+
+-- === ХОТКЕЙ ДЛЯ БУФЕРОВ ===
+vim.keymap.set("n", "<leader>,", function()
+    Snacks.picker.buffers({
+        focus = "list"
+    })
+end, {
+    desc = "Buffers"
 })

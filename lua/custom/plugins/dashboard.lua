@@ -1,3 +1,5 @@
+require('custom.plugins.snacks')
+
 local gh = function(repo)
     return 'https://github.com/' .. repo
 end
