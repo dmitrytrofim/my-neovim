@@ -12,8 +12,9 @@ vim.keymap.set('n', '<F12>', macros.copy_class_to_right_window, {
 })
 
 -- Быстрый возврат на стартовую страницу (dashboard)
-vim.keymap.set('n', '<leader>h', function()
+vim.keymap.set('n', '<BS>', function()
     -- Используем dashboard-nvim, а не snacks
+    vim.fn.chdir(vim.fn.expand('~'))
     vim.cmd('Dashboard')
 end, {
     desc = 'Open home'
@@ -113,27 +114,11 @@ vim.keymap.set('i', '<C-S-NL>', '<C-o>O', {
 })
 
 -- Переключение окон (normal)
-vim.keymap.set('n', '<F4>', '<C-w>w', {
-    desc = 'Перейти в следующее окно'
-})
-vim.keymap.set('n', '<F3>', '<C-w>W', {
+vim.keymap.set('n', '<F1>', '<C-w>W', {
     desc = 'Вернуться в предыдущее окно'
 })
-
--- Переключение + прыжок в конец
-vim.keymap.set('n', '<leader><F4>', '<C-w>wG', {
-    desc = 'Перейти в следующее окно и в конец'
-})
-vim.keymap.set('n', '<leader><F3>', '<C-w>WG', {
-    desc = 'Перейти в предыдущее окно и в конец'
-})
-
--- Переключение окон (insert)
-vim.keymap.set('i', '<F4>', '<C-o><C-w>w', {
+vim.keymap.set('n', '<F2>', '<C-w>w', {
     desc = 'Перейти в следующее окно'
-})
-vim.keymap.set('i', '<F3>', '<C-o><C-w>W', {
-    desc = 'Вернуться в предыдущее окно'
 })
 
 -- Сброс зависших диагностик
@@ -157,21 +142,20 @@ vim.keymap.set('i', '<C-a>', '<Home>', {
     desc = 'В начало строки'
 })
 
--- F1 — hover (normal + insert)
-vim.keymap.set('n', '<F1>', vim.lsp.buf.hover, {
+vim.keymap.set('n', '<F9>', vim.lsp.buf.hover, {
     desc = 'Показать документацию/типы'
 })
-vim.keymap.set('i', '<F1>', function()
+vim.keymap.set('i', '<F9>', function()
     vim.lsp.buf.hover()
 end, {
     desc = 'Показать документацию/типы'
 })
 
 -- F2 — rename (normal + insert)
-vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, {
+vim.keymap.set('n', '<F10>', vim.lsp.buf.rename, {
     desc = 'Переименовать сущность'
 })
-vim.keymap.set('i', '<F2>', function()
+vim.keymap.set('i', '<F10>', function()
     vim.lsp.buf.rename()
 end, {
     desc = 'Переименовать сущность'

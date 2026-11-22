@@ -22,8 +22,5 @@ require('which-key').setup {
     }, {
         "<leader>d",
         group = "Diagnostics"
-    }, {
-        "<leader>h",
-        group = "Home/Git"
     }}
 }

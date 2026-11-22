@@ -122,10 +122,8 @@ end, {
 })
 
 -- === ХОТКЕЙ ДЛЯ БУФЕРОВ ===
-vim.keymap.set("n", "<leader>,", function()
-    Snacks.picker.buffers({
-        focus = "list"
-    })
+vim.keymap.set("n", "<leader><leader>", function()
+    Snacks.picker.buffers()
 end, {
     desc = "Buffers"
 })
