@@ -235,3 +235,22 @@ vim.api.nvim_create_autocmd('FileType', {
         vim.keymap.set('n', 'k', 'k', opts)
     end
 })
+
+-- Открываем картинки из проводника/пикера сразу через imv -s shrink вместо сырых байтов в буфере
+vim.api.nvim_create_autocmd('BufReadCmd', {
+    pattern = {'*.png', '*.jpg', '*.jpeg', '*.gif', '*.webp', '*.svg', '*.ico', '*.bmp', '*.PNG', '*.JPG', '*.JPEG',
+               '*.GIF', '*.WEBP', '*.SVG', '*.ICO', '*.BMP'},
+    callback = function(ev)
+        vim.fn.jobstart({'imv', '-s', 'shrink', vim.fn.fnamemodify(ev.file, ':p')}, {
+            detach = true
+        })
+        -- Удаляем созданный пустой буфер, чтобы он не засорял список открытых файлов
+        vim.schedule(function()
+            if vim.api.nvim_buf_is_valid(ev.buf) then
+                vim.api.nvim_buf_delete(ev.buf, {
+                    force = true
+                })
+            end
+        end)
+    end
+})

@@ -4,6 +4,7 @@
 vim.opt.number = true
 vim.opt.relativenumber = false
 vim.opt.smoothscroll = false
+vim.o.showtabline = 0
 
 -- [[ Neovide ]]
 if vim.g.neovide then

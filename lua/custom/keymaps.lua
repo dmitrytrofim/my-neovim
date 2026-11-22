@@ -281,3 +281,29 @@ map('n', '<leader>wl', '<C-w>l', {
 map('n', '<leader>ww', '<C-w>w', {
     desc = 'Switch to next window'
 })
+
+-- Мгновенное открытие картинки под курсором через сверхлёгкий imv (без задержек GTK4 и xdg-open)
+vim.keymap.set('n', '<leader>p', function()
+    local raw = vim.fn.expand('<cfile>')
+    local buf_dir = vim.fn.expand('%:p:h')
+    local root = vim.fs.root(0, {'.git', 'package.json', 'index.html', 'vite.config.js', 'vite.config.ts'}) or
+                     vim.fn.getcwd()
+    local clean_web_path = raw:gsub('^/', '')
+
+    local candidates = {vim.fn.expand(raw), buf_dir .. '/' .. raw, root .. '/public/' .. clean_web_path,
+                        root .. '/' .. clean_web_path}
+
+    for _, candidate in ipairs(candidates) do
+        if vim.fn.filereadable(candidate) == 1 then
+            vim.fn.jobstart({'imv', '-s', 'shrink', vim.fn.fnamemodify(candidate, ':p')}, {
+                detach = true
+            })
+            return
+        end
+    end
+
+    vim.notify('Картинка не найдена: ' .. raw, vim.log.levels.WARN)
+end, {
+    desc = '[P]review image instantly'
+})
+
