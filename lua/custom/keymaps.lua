@@ -307,3 +307,21 @@ end, {
     desc = '[P]review image instantly'
 })
 
+-- ============================================================
+-- Группа <leader>o: Operations / Open
+-- ============================================================
+
+-- Docker (lazydocker в плавающем терминале Snacks)
+vim.keymap.set('n', '<leader>od', function()
+    Snacks.terminal('lazydocker')
+end, {
+    desc = '[O]pen [D]ocker'
+})
+
+-- Минификация (сжатие в одну строку)
+vim.keymap.set('v', '<leader>om', ':s/\\n\\s*//g<CR>:nohlsearch<CR>', {
+    desc = '[O]peration: [M]inify selection'
+})
+vim.keymap.set('n', '<leader>om', ':%s/\\n\\s*//g<CR>:nohlsearch<CR>', {
+    desc = '[O]peration: [M]inify file'
+})

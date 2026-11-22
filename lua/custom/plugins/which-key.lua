@@ -22,5 +22,11 @@ require('which-key').setup {
     }, {
         "<leader>d",
         group = "Diagnostics"
-    }}
+    }},
+    {
+        '<leader>o',
+        group = '[O]perations / Open',
+        mode = {'n', 'v'}
+    }
 }
+

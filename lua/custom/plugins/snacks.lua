@@ -116,6 +116,7 @@ snacks.setup {
                     list = {
                         keys = {
                             ["<Left>"] = "explorer_close",
+                            ["H"] = "explorer_close_all",
                             ["<Right>"] = "confirm_smart",
                             ["<CR>"] = "confirm_smart",
                             ["l"] = "confirm_smart"
@@ -219,8 +220,3 @@ end, {
     desc = "Buffers"
 })
 
-vim.keymap.set('n', '<leader>od', function()
-    Snacks.terminal('lazydocker')
-end, {
-    desc = '[O]pen [D]ocker'
-})
