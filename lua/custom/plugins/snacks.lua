@@ -46,7 +46,14 @@ snacks.setup {
                 focus = 'list',
                 filter = {
                     filter = function(item)
-                        return item.file ~= ''
+                        -- Скрываем пустые буферы и любые временные [Scratch] / служебные окна
+                        if not item.file or item.file == '' then
+                            return false
+                        end
+                        if item.buf and vim.bo[item.buf].buftype ~= '' then
+                            return false
+                        end
+                        return not item.file:match('%[Scratch%]')
                     end
                 }
             },

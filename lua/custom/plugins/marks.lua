@@ -16,15 +16,68 @@ require('marks').setup {
         -- Прыгнуть к следующей / предыдущей закладке (Пробел + m + n / p)
         next = '<leader>mn',
         prev = '<leader>mp',
-        -- Предпросмотр закладки (Пробел + m + v)
-        preview = '<leader>mv',
-        -- Удалить закладку на текущей строке (Пробел + m + d)
-        delete_line = '<leader>md',
-        -- Удалить все закладки в текущем файле (Пробел + m + D)
-        delete_buf = '<leader>mD'
+        -- Удалить все закладки в текущем файле (Пробел + m + d)
+        delete_buf = '<leader>md'
     }
 }
 
 vim.keymap.set('n', '<leader>ml', '<cmd>MarksListAll<CR>', {
     desc = '[M]arks [L]ist all'
 })
+
+-- Удаление метки из списка (:MarksListAll) одним нажатием на 'd'
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'qf',
+    callback = function(event)
+        vim.keymap.set('n', 'd', function()
+            local idx = vim.fn.line('.')
+            local line = vim.api.nvim_get_current_line()
+
+            -- Парсим имя файла и букву метки напрямую из строки вида: "index.html|3 col 2| mark l: <head>"
+            local fname, mark = line:match('^(.-)|%d+%s+col%s+%d+|%s+mark%s+([a-zA-Z]):')
+            if not (fname and mark) then
+                return
+            end
+
+            -- Находим буфер файла и удаляем в нём метку
+            local bufnr = vim.fn.bufnr(fname)
+            if bufnr ~= -1 then
+                vim.api.nvim_buf_call(bufnr, function()
+                    pcall(vim.cmd, 'delmarks ' .. mark)
+                end)
+            end
+            -- Если метка заглавная (глобальная), удаляем и через API
+            if mark:match('%u') then
+                pcall(vim.api.nvim_del_mark, mark)
+            end
+
+            -- Возвращаемся в окно с кодом, обновляем состояние marks.nvim и перестраиваем список
+            vim.cmd('wincmd p')
+            pcall(function()
+                require('marks').refresh(true)
+            end)
+            vim.cmd('MarksListAll')
+
+            -- Если меток не осталось — закрываем окно, иначе возвращаем курсор на место
+            local new_list = vim.fn.getloclist(0)
+            if #new_list == 0 then
+                vim.cmd('lclose')
+            else
+                vim.cmd('lopen')
+                pcall(vim.api.nvim_win_set_cursor, 0, {math.min(idx, #new_list), 0})
+            end
+        end, {
+            buffer = event.buf,
+            silent = true,
+            desc = 'Delete mark under cursor'
+        })
+    end
+})
+
+-- Закрываем окно меток ДО перезапуска/выхода, чтобы оно не сохранялось в сессию
+vim.api.nvim_create_autocmd({'ExitPre', 'VimLeavePre'}, {
+    callback = function()
+        vim.cmd('silent! lclose | silent! cclose')
+    end
+})
+
