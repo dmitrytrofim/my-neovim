@@ -4,10 +4,17 @@ end
 
 vim.pack.add {gh 'nvimdev/dashboard-nvim'}
 
+-- Быстрый возврат на стартовую страницу и сброс директории в ~
+vim.keymap.set('n', '<BS>', function()
+    vim.fn.chdir(vim.fn.expand('~'))
+    vim.cmd('Dashboard')
+end, {
+    desc = 'Open home'
+})
+
 require('dashboard').setup {
     theme = 'hyper',
     config = {
-        -- Меняем заголовок
         header = {"", "", "",
                   "███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗",
                   "████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║",
@@ -64,26 +71,35 @@ vim.api.nvim_set_hl(0, 'DashboardHiddenCursor', {
     nocombine = true
 })
 
--- Сохраняем исходный guicursor (избегаем жесткого кодирования)
 local original_guicursor = vim.go.guicursor
+local dash_group = vim.api.nvim_create_augroup('DashboardCursor', {
+    clear = true
+})
 
-vim.api.nvim_create_autocmd('FileType', {
-    pattern = 'dashboard',
+-- Скрываем курсор при КАЖДОМ входе в буфер дашборда (в том числе после закрытия пикеров)
+vim.api.nvim_create_autocmd({'FileType', 'BufEnter'}, {
+    group = dash_group,
     callback = function()
-        -- Ключевой момент: используем vim.schedule, чтобы дождаться завершения перерисовки буфера Neovide
-        vim.schedule(function()
-            vim.opt.guicursor = 'a:DashboardHiddenCursor'
-        end)
+        if vim.bo.filetype == 'dashboard' then
+            vim.schedule(function()
+                if vim.bo.filetype == 'dashboard' then
+                    vim.opt.guicursor = 'a:DashboardHiddenCursor'
+                end
+            end)
+        end
+    end
+})
 
-        -- При выходе из буфера восстанавливаем
-        vim.api.nvim_create_autocmd('BufLeave', {
-            buffer = 0,
-            once = true,
-            callback = function()
-                vim.schedule(function()
+-- Восстанавливаем курсор при уходе из буфера дашборда
+vim.api.nvim_create_autocmd('BufLeave', {
+    group = dash_group,
+    callback = function()
+        if vim.bo.filetype == 'dashboard' then
+            vim.schedule(function()
+                if vim.bo.filetype ~= 'dashboard' then
                     vim.opt.guicursor = original_guicursor
-                end)
-            end
-        })
+                end
+            end)
+        end
     end
 })
