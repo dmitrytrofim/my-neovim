@@ -7,8 +7,11 @@
 local macros = require('custom.macros') -- NOTE: путь custom.*, не config.*
 
 -- Копировать класс как CSS-правило
-vim.keymap.set('n', '<F12>', macros.copy_class_to_right_window, {
+vim.keymap.set('n', '<F11>', macros.copy_class_to_right_window, {
     desc = 'Send class to right window'
+})
+vim.keymap.set('n', '<F12>', macros.copy_class_to_clipboard, {
+    desc = 'Copy class'
 })
 
 -- Быстрый возврат на стартовую страницу (dashboard)

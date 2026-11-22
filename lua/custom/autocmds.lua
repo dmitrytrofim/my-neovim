@@ -241,9 +241,15 @@ vim.api.nvim_create_autocmd('BufReadCmd', {
     pattern = {'*.png', '*.jpg', '*.jpeg', '*.gif', '*.webp', '*.svg', '*.ico', '*.bmp', '*.PNG', '*.JPG', '*.JPEG',
                '*.GIF', '*.WEBP', '*.SVG', '*.ICO', '*.BMP'},
     callback = function(ev)
-        vim.fn.jobstart({'imv', '-s', 'shrink', vim.fn.fnamemodify(ev.file, ':p')}, {
+        local path = vim.fn.fnamemodify(ev.file, ':p')
+        local dir = vim.fn.fnamemodify(path, ':h')
+        local filename = vim.fn.fnamemodify(path, ':t')
+
+        -- -d включает оверлей с именем файла, -n <имя> <папка> открывает нужный файл в контексте всей папки
+        vim.fn.jobstart({'imv', '-d', '-s', 'shrink', '-n', filename, dir}, {
             detach = true
         })
+
         -- Удаляем созданный пустой буфер, чтобы он не засорял список открытых файлов
         vim.schedule(function()
             if vim.api.nvim_buf_is_valid(ev.buf) then
@@ -252,5 +258,15 @@ vim.api.nvim_create_autocmd('BufReadCmd', {
                 })
             end
         end)
+    end
+})
+
+-- После загрузки сессии закрываем все лишние сплиты, оставляя одно окно
+vim.api.nvim_create_autocmd('SessionLoadPost', {
+    group = vim.api.nvim_create_augroup('single-window-session', {
+        clear = true
+    }),
+    callback = function()
+        vim.cmd('silent! only')
     end
 })

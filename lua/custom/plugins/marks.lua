@@ -73,11 +73,3 @@ vim.api.nvim_create_autocmd('FileType', {
         })
     end
 })
-
--- Закрываем окно меток ДО перезапуска/выхода, чтобы оно не сохранялось в сессию
-vim.api.nvim_create_autocmd({'ExitPre', 'VimLeavePre'}, {
-    callback = function()
-        vim.cmd('silent! lclose | silent! cclose')
-    end
-})
-

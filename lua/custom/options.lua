@@ -6,6 +6,9 @@ vim.opt.relativenumber = false
 vim.opt.smoothscroll = false
 vim.o.showtabline = 0
 
+-- Сохраняем только буферы и текущую папку, без сплитов
+vim.opt.sessionoptions = {'buffers', 'curdir', 'folds', 'help'}
+
 -- [[ Neovide ]]
 if vim.g.neovide then
     -- Убираем размытие/тени плавающих окон — главная причина фризов в Linux
