@@ -238,16 +238,6 @@ end, {
 
 local map = vim.keymap.set
 
--- Регистрация группы в which-key (для красивой подписи +Windows)
-local ok, wk = pcall(require, 'which-key')
-if ok then
-    wk.add({{
-        '<leader>w',
-        group = 'Windows',
-        icon = ' '
-    }})
-end
-
 -- Разделение экрана (сплиты)
 map('n', '<leader>wv', '<C-w>v', {
     desc = 'Split window vertically (справа)'

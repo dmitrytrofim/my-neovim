@@ -1,5 +1,9 @@
 -- lua/custom/plugins/which-key.lua
-vim.pack.add {'https://github.com/folke/which-key.nvim'}
+local gh = function(repo)
+    return 'https://github.com/' .. repo
+end
+
+vim.pack.add {gh 'folke/which-key.nvim'}
 
 require('which-key').setup {
     preset = "helix",
@@ -22,11 +26,12 @@ require('which-key').setup {
     }, {
         "<leader>d",
         group = "Diagnostics"
-    }},
-    {
-        '<leader>o',
-        group = '[O]perations / Open',
-        mode = {'n', 'v'}
-    }
+    }, {
+        "<leader>o",
+        group = "[O]perations / Open",
+        mode = {"n", "v"}
+    }, {
+        "<leader>w",
+        group = "[W]indows"
+    }}
 }
-
