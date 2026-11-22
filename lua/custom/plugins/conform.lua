@@ -10,37 +10,42 @@ require('conform').setup {
     formatters_by_ft = {
         javascript = {
             'eslint_d',
-            'eslint',
+            'prettier',
             stop_after_first = true
         },
         typescript = {
             'eslint_d',
-            'eslint',
+            'prettier',
             stop_after_first = true
         },
         javascriptreact = {
             'eslint_d',
-            'eslint',
+            'prettier',
             stop_after_first = true
         },
         typescriptreact = {
             'eslint_d',
-            'eslint',
+            'prettier',
+            stop_after_first = true
+        },
+        json = {
+            'prettier',
+            stop_after_first = true
+        },
+        jsonc = {
+            'prettier',
             stop_after_first = true
         },
 
         css = {
-            'prettierd',
             'prettier',
             stop_after_first = true
         },
         scss = {
-            'prettierd',
             'prettier',
             stop_after_first = true
         },
         html = {
-            'prettierd',
             'prettier',
             stop_after_first = true
         }

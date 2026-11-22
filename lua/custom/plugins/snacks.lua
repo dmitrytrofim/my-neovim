@@ -134,3 +134,9 @@ vim.keymap.set("n", "<leader><leader>", function()
 end, {
     desc = "Buffers"
 })
+
+vim.keymap.set('n', '<leader>od', function()
+    Snacks.terminal('lazydocker')
+end, {
+    desc = '[O]pen [D]ocker'
+})
