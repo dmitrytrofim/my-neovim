@@ -116,14 +116,6 @@ vim.keymap.set('i', '<C-S-NL>', '<C-o>O', {
     desc = 'Создать чистую строку сверху (fallback)'
 })
 
--- Переключение окон (normal)
-vim.keymap.set('n', '<F1>', '<C-w>W', {
-    desc = 'Вернуться в предыдущее окно'
-})
-vim.keymap.set('n', '<F2>', '<C-w>w', {
-    desc = 'Перейти в следующее окно'
-})
-
 -- Сброс зависших диагностик
 -- NOTE: было :edit! — отбрасывает несохранённые правки. Опасно.
 -- Убрал bang: :e перечитывает с диска только если нет изменений (иначе предупреждение).
@@ -317,4 +309,25 @@ vim.keymap.set('v', '<leader>om', ':s/\\n\\s*//g<CR>:nohlsearch<CR>', {
 })
 vim.keymap.set('n', '<leader>om', ':%s/\\n\\s*//g<CR>:nohlsearch<CR>', {
     desc = '[O]peration: [M]inify file'
+})
+
+-- Переключение между буферами
+vim.keymap.set('n', '<F1>', '<cmd>bprevious<cr>', {
+    desc = 'Предыдущий буфер'
+})
+vim.keymap.set('n', '<F2>', '<cmd>bnext<cr>', {
+    desc = 'Следующий буфер'
+})
+
+vim.keymap.set('n', '<C-h>', '<C-w><C-h>', {
+    desc = 'Move focus to the left window'
+})
+vim.keymap.set('n', '<C-l>', '<C-w><C-l>', {
+    desc = 'Move focus to the right window'
+})
+vim.keymap.set('n', '<C-j>', '<C-w><C-j>', {
+    desc = 'Move focus to the lower window'
+})
+vim.keymap.set('n', '<C-k>', '<C-w><C-k>', {
+    desc = 'Move focus to the upper window'
 })
